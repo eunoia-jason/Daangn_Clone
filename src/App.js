@@ -5,6 +5,7 @@ import ScrollToTop from "./ScrollToTop";
 import styled, { ThemeProvider } from "styled-components";
 import { theme } from "./Style/theme";
 import TopNavBar from "./Common/TopNavBar";
+import PageNotFound from "./Page/404Error";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             {/* 기본 화면 설정 */}
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/*" element={<PageNotFound />} />
           </Routes>
         </Main>
       </Router>
