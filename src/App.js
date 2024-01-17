@@ -26,6 +26,6 @@ function App() {
 
 export default App;
 
-const Main = styled.div`
-  margin-top: 6.4rem;
+const Main = styled.main`
+  margin-top: 64px;
 `;

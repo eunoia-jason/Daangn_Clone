@@ -37,7 +37,9 @@ const TopNavBar = () => {
             <Li>
               <NavBarLink
                 to="/fleamarket"
-                style={({ isActive }) => (isActive ? { color: "#FF6F0F" } : {})}
+                style={({ isActive }) =>
+                  isActive ? { color: "#FF6F0F", opacity: 1 } : {}
+                }
               >
                 중고거래
               </NavBarLink>
@@ -45,7 +47,9 @@ const TopNavBar = () => {
             <Li>
               <NavBarLink
                 to="/about"
-                style={({ isActive }) => (isActive ? { color: "#FF6F0F" } : {})}
+                style={({ isActive }) =>
+                  isActive ? { color: "#FF6F0F", opacity: 1 } : {}
+                }
               >
                 동네업체
               </NavBarLink>
@@ -53,7 +57,9 @@ const TopNavBar = () => {
             <Li>
               <NavBarLink
                 to="/about"
-                style={({ isActive }) => (isActive ? { color: "#FF6F0F" } : {})}
+                style={({ isActive }) =>
+                  isActive ? { color: "#FF6F0F", opacity: 1 } : {}
+                }
               >
                 알바
               </NavBarLink>
@@ -61,7 +67,9 @@ const TopNavBar = () => {
             <Li>
               <NavBarLink
                 to="/about"
-                style={({ isActive }) => (isActive ? { color: "#FF6F0F" } : {})}
+                style={({ isActive }) =>
+                  isActive ? { color: "#FF6F0F", opacity: 1 } : {}
+                }
               >
                 부동산 직거래
               </NavBarLink>
@@ -69,7 +77,9 @@ const TopNavBar = () => {
             <Li>
               <NavBarLink
                 to="/about"
-                style={({ isActive }) => (isActive ? { color: "#FF6F0F" } : {})}
+                style={({ isActive }) =>
+                  isActive ? { color: "#FF6F0F", opacity: 1 } : {}
+                }
               >
                 중고차 직거래
               </NavBarLink>
@@ -85,7 +95,7 @@ const TopNavBar = () => {
                 value={input}
                 onChange={handleInputChange}
               />
-              {input == "" ? null : (
+              {input === "" ? null : (
                 <Delete onClick={handleDeleteClick}>
                   <DeleteButton />
                 </Delete>
