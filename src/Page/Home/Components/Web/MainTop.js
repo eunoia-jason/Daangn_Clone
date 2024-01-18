@@ -96,6 +96,10 @@ const DownloadButton = styled.a`
   vertical-align: middle;
   text-align: center;
   margin-right: 1rem;
+
+  &:hover {
+    background-color: #f06000;
+  }
 `;
 
 const Img = styled.img`
