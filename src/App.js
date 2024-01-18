@@ -6,6 +6,7 @@ import styled, { ThemeProvider } from "styled-components";
 import { theme } from "./Style/theme";
 import TopNavBar from "./Common/TopNavBar";
 import PageNotFound from "./Page/404Error";
+import Footer from "./Common/Footer";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/*" element={<PageNotFound />} />
           </Routes>
         </Main>
+        <Footer />
       </Router>
     </ThemeProvider>
   );

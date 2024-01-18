@@ -3,6 +3,7 @@ import MainTop from "./MainTop";
 import MainSection from "./MainSection";
 import MainMiddle from "./MainMiddle";
 import MainSemiMiddle from "./MainSemiMiddle";
+import MainBottom from "./MainBottom";
 
 const WebHome = () => {
   return (
@@ -11,6 +12,7 @@ const WebHome = () => {
       <MainSection />
       <MainMiddle />
       <MainSemiMiddle />
+      <MainBottom />
     </>
   );
 };
