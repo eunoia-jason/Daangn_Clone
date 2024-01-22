@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AboutPage from "./Page/About";
 import HomePage from "./Page/Home";
+import ChatPage from "./Page/Chat";
 import ScrollToTop from "./ScrollToTop";
 import styled, { ThemeProvider } from "styled-components";
 import { theme } from "./Style/theme";
@@ -25,6 +26,7 @@ function App() {
                 {/* 기본 화면 설정 */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/chat" element={<ChatPage />} />
                 <Route path="/*" element={<PageNotFound />} />
               </Routes>
             </Main>

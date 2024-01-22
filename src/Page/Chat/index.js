@@ -21,4 +21,4 @@ const ChatPage = () => {
   );
 };
 
-export default HomeChat;
+export default ChatPage;
