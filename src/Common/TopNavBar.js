@@ -15,6 +15,8 @@ const TopNavBar = () => {
     setInput("");
   };
 
+  const handleSubmit = () => {};
+
   return (
     <Container>
       <InnerContent>
@@ -46,7 +48,7 @@ const TopNavBar = () => {
             </Li>
             <Li>
               <NavBarLink
-                to="/about"
+                to="/nearby_stores"
                 style={({ isActive }) =>
                   isActive ? { color: "#FF6F0F", opacity: 1 } : {}
                 }
@@ -56,7 +58,7 @@ const TopNavBar = () => {
             </Li>
             <Li>
               <NavBarLink
-                to="/about"
+                to="/jobs"
                 style={({ isActive }) =>
                   isActive ? { color: "#FF6F0F", opacity: 1 } : {}
                 }
@@ -66,7 +68,7 @@ const TopNavBar = () => {
             </Li>
             <Li>
               <NavBarLink
-                to="/about"
+                to="/realty"
                 style={({ isActive }) =>
                   isActive ? { color: "#FF6F0F", opacity: 1 } : {}
                 }
@@ -76,7 +78,7 @@ const TopNavBar = () => {
             </Li>
             <Li>
               <NavBarLink
-                to="/about"
+                to="/car"
                 style={({ isActive }) =>
                   isActive ? { color: "#FF6F0F", opacity: 1 } : {}
                 }
@@ -88,7 +90,7 @@ const TopNavBar = () => {
         </Nav>
         <InputBar>
           <span>
-            <Form>
+            <Form onSubmit={handleSubmit}>
               <Input
                 type="search"
                 placeholder="물품이나 동네를 검색해보세요"
