@@ -7,23 +7,31 @@ import { theme } from "./Style/theme";
 import TopNavBar from "./Common/TopNavBar";
 import PageNotFound from "./Page/404Error";
 import Footer from "./Common/Footer";
+import { RecoilRoot } from "recoil";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
+  const clientId = process.env.REACT_APP_CLIENT_ID;
+
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-        <ScrollToTop />
-        <TopNavBar />
-        <Main>
-          <Routes>
-            {/* 기본 화면 설정 */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/*" element={<PageNotFound />} />
-          </Routes>
-        </Main>
-        <Footer />
-      </Router>
+      <RecoilRoot>
+        <GoogleOAuthProvider clientId={clientId}>
+          <Router>
+            <ScrollToTop />
+            <TopNavBar />
+            <Main>
+              <Routes>
+                {/* 기본 화면 설정 */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/*" element={<PageNotFound />} />
+              </Routes>
+            </Main>
+            <Footer />
+          </Router>
+        </GoogleOAuthProvider>
+      </RecoilRoot>
     </ThemeProvider>
   );
 }

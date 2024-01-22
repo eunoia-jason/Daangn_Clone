@@ -2,10 +2,33 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Logo from "../Assets/Logo";
 import DeleteButton from "../Assets/DeleteButton";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { Credential } from "../Atoms/LoginAtom";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const TopNavBar = () => {
   const [input, setInput] = useState("");
+  const navigate = useNavigate();
+  const [credential, setCredential] = useRecoilState(Credential);
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+      // fetching userinfo can be done on the client or the server
+      const userInfo = await axios
+        .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        })
+        .then((res) => res.data);
+
+      console.log(userInfo);
+      setCredential(userInfo);
+    },
+    onFailure: (err) => {
+      console.log(err);
+    },
+  });
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
@@ -13,6 +36,10 @@ const TopNavBar = () => {
 
   const handleDeleteClick = () => {
     setInput("");
+  };
+
+  const handleChatClick = () => {
+    navigate("/chat");
   };
 
   const handleSubmit = () => {};
@@ -105,7 +132,9 @@ const TopNavBar = () => {
             </Form>
           </span>
           <span>
-            <ChatButton>채팅하기</ChatButton>
+            <ChatButton onClick={credential === null ? login : handleChatClick}>
+              {credential === null ? "로그인" : "채팅하기"}
+            </ChatButton>
           </span>
         </InputBar>
       </InnerContent>
