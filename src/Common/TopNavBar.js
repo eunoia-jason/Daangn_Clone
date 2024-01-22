@@ -4,7 +4,7 @@ import Logo from "../Assets/Logo";
 import DeleteButton from "../Assets/DeleteButton";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { Credential } from "../Atoms/LoginAtom";
+import { AccessToken, Credential } from "../Atoms/LoginAtom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
@@ -12,9 +12,12 @@ const TopNavBar = () => {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
   const [credential, setCredential] = useRecoilState(Credential);
+  const [accessToken, setAcessToken] = useRecoilState(AccessToken);
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log(tokenResponse);
+      localStorage.setItem("accessToken", tokenResponse.access_token);
+      setAcessToken(tokenResponse.access_token);
       // fetching userinfo can be done on the client or the server
       const userInfo = await axios
         .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -132,8 +135,10 @@ const TopNavBar = () => {
             </Form>
           </span>
           <span>
-            <ChatButton onClick={credential === null ? login : handleChatClick}>
-              {credential === null ? "로그인" : "채팅하기"}
+            <ChatButton
+              onClick={accessToken === null ? login : handleChatClick}
+            >
+              {accessToken === null ? "로그인" : "채팅하기"}
             </ChatButton>
           </span>
         </InputBar>

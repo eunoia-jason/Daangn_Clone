@@ -1,16 +1,19 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { Credential } from "../../../../Atoms/LoginAtom";
 import { useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
+import { AccessToken, Credential } from "../../../../Atoms/LoginAtom";
 
 const WebChat = () => {
   const navigate = useNavigate();
   const [, setCredential] = useRecoilState(Credential);
+  const [, setAcessToken] = useRecoilState(AccessToken);
   const handleLogoutClick = () => {
     googleLogout();
+    localStorage.removeItem("accessToken");
     setCredential(null);
+    setAcessToken(null);
     navigate("/");
   };
 

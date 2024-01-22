@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
+import { Link, Outlet } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
 
-const WebFleamarket = () => {
+const WebAbouts = () => {
   const [data, setData] = useState([]);
   const [, setAboutItem] = useRecoilState(AboutItem);
 
@@ -22,29 +22,7 @@ const WebFleamarket = () => {
 
   return (
     <>
-      <Section>
-        <Cover>
-          <Title>
-            믿을만한
-            <br />
-            이웃 간 중고거래
-          </Title>
-          <Description>
-            동네 주민들과 가깝고 따뜻한 거래를
-            <br />
-            지금 경험해보세요.
-          </Description>
-          <DivImg>
-            <SpanImg>
-              <Img
-                srcSet="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/fleamarket-39d1db152a4769a6071f587fa9320b254085d726a06f61d544728b9ab3bd940a.webp "
-                alt="믿을만한 이웃 간 중고거래"
-                src="https://d1unjqcospf8gs.cloudfront.net/assets/home/main/3x/fleamarket-39d1db152a4769a6071f587fa9320b254085d726a06f61d544728b9ab3bd940a.webp"
-              />
-            </SpanImg>
-          </DivImg>
-        </Cover>
-      </Section>
+      <Outlet />
       <ArticleList>
         <ArticleTitle>중고거래 인기매물</ArticleTitle>
         <CardWrap>
@@ -77,84 +55,7 @@ const WebFleamarket = () => {
   );
 };
 
-export default WebFleamarket;
-
-const Section = styled.section`
-  height: 315px;
-  padding: 0 16px 0 16px;
-  background-color: #fff1aa;
-  display: block;
-`;
-
-const Cover = styled.div`
-  position: relative;
-  height: 100%;
-  box-sizing: border-box;
-  padding-top: 50px;
-  max-width: 768px;
-  margin: 0 auto;
-`;
-
-const Title = styled.h1`
-  line-height: 1.5;
-  font-size: 34px;
-  letter-spacing: -0.32px;
-  font-weight: 700;
-`;
-
-const Description = styled.span`
-  line-height: 1.32;
-  font-size: 18px;
-  letter-spacing: -0.18px;
-  margin-top: 16px;
-  display: block;
-`;
-
-const DivImg = styled.div`
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  right: 0;
-  height: 315px;
-  width: 416px;
-`;
-
-const SpanImg = styled.span`
-  box-sizing: border-box;
-  overflow: hidden;
-  width: initial;
-  height: initial;
-  background: none;
-  opacity: 1;
-  border: 0;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: block;
-`;
-
-const Img = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  padding: 0;
-  border: none;
-  margin: auto;
-  width: 0;
-  height: 0;
-  min-width: 100%;
-  max-width: 100%;
-  min-height: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  display: block;
-`;
+export default WebAbouts;
 
 const ArticleList = styled.section`
   padding-top: 64px;
