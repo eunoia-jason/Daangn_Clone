@@ -7,7 +7,7 @@ import { googleLogout } from "@react-oauth/google";
 
 const WebChat = () => {
   const navigate = useNavigate();
-  const [credential, setCredential] = useRecoilState(Credential);
+  const [, setCredential] = useRecoilState(Credential);
   const handleLogoutClick = () => {
     googleLogout();
     setCredential(null);

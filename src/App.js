@@ -10,6 +10,7 @@ import PageNotFound from "./Page/404Error";
 import Footer from "./Common/Footer";
 import { RecoilRoot } from "recoil";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import FleamarketPage from "./Page/Fleamarket";
 
 function App() {
   const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -25,7 +26,8 @@ function App() {
               <Routes>
                 {/* 기본 화면 설정 */}
                 <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<AboutPage />} />
+                <Route path="/fleamarket" element={<FleamarketPage />} />
+                <Route path="/about/:id" element={<AboutPage />} />
                 <Route path="/chat" element={<ChatPage />} />
                 <Route path="/*" element={<PageNotFound />} />
               </Routes>
