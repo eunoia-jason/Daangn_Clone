@@ -42,7 +42,7 @@ const TopNavBar = () => {
   };
 
   const handleChatClick = () => {
-    navigate("/chat");
+    navigate("/mypage");
   };
 
   const handleSubmit = () => {};
@@ -138,7 +138,7 @@ const TopNavBar = () => {
             <ChatButton
               onClick={accessToken === null ? login : handleChatClick}
             >
-              {accessToken === null ? "로그인" : "채팅하기"}
+              {accessToken === null ? "로그인" : "마이페이지"}
             </ChatButton>
           </span>
         </InputBar>

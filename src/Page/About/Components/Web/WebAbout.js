@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import defaultProfile from "../../../../Assets/default_profile.png";
 import { useRecoilValue } from "recoil";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
+import { Credential } from "../../../../Atoms/LoginAtom";
 
 const WebAbout = () => {
   const aboutItem = useRecoilValue(AboutItem);
+  const user = useRecoilValue(Credential);
 
   return (
     <Body>
@@ -47,11 +49,16 @@ const WebAbout = () => {
           </ProfileLink>
         </Profile>
         <Description>
-          <Title>{aboutItem.title}</Title>
-          <Category>
-            {aboutItem.category} ∙ <time>6시간 전</time>
-          </Category>
-          <Price>{aboutItem.price.toLocaleString()}원</Price>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "block" }}>
+              <Title>{aboutItem.title}</Title>
+              <Category>
+                {aboutItem.category} ∙ <time>6시간 전</time>
+              </Category>
+              <Price>{aboutItem.price.toLocaleString()}원</Price>
+            </div>
+            {user && <ChatButton>채팅 신청</ChatButton>}
+          </div>
           <div style={{ marginBottom: "16px", marginTop: "8px" }}>
             <Desc>{aboutItem.description}</Desc>
           </div>
@@ -260,4 +267,26 @@ const Counts = styled.p`
   line-height: 1.46;
   letter-spacing: -0.6px;
   color: #868e96;
+`;
+
+const ChatButton = styled.button`
+  line-height: 1.3;
+  font-size: 1.6rem;
+  display: block;
+  white-space: nowrap;
+  background-color: white;
+  font-weight: 700;
+  height: 4rem;
+  padding: 0 1.6rem;
+  border-radius: 0.4rem;
+  border: 1px solid #d1d3d8;
+  cursor: pointer;
+  width: fit-content;
+
+  &:hover {
+    background-color: #f2f3f6;
+    color: #21212480;
+    transition: background-color 0.15s;
+    will-change: background-color;
+  }
 `;

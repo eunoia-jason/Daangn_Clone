@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
 import { AccessToken, Credential } from "../../../../Atoms/LoginAtom";
 
-const WebChat = () => {
+const WebMy = () => {
   const navigate = useNavigate();
   const [, setCredential] = useRecoilState(Credential);
   const [, setAcessToken] = useRecoilState(AccessToken);
@@ -20,7 +20,7 @@ const WebChat = () => {
   return <LogoutButton onClick={handleLogoutClick}>로그아웃</LogoutButton>;
 };
 
-export default WebChat;
+export default WebMy;
 
 const LogoutButton = styled.button`
   line-height: 1.3;

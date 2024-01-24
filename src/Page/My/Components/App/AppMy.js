@@ -2,16 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const AppChat = () => {
+const AppMy = () => {
   return (
     <>
-      <Header1>채팅 모바일 페이지</Header1>
+      <Header1>모바일 마이페이지</Header1>
       <Link to="/about">소개 페이지</Link>
     </>
   );
 };
 
-export default AppChat;
+export default AppMy;
 
 // theme 파일 폰트 적용 방법 + style-components 사용
 const Header1 = styled.div`

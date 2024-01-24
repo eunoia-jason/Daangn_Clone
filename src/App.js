@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AboutPage from "./Page/About";
 import HomePage from "./Page/Home";
-import ChatPage from "./Page/Chat";
+import MyPage from "./Page/My";
 import ScrollToTop from "./ScrollToTop";
 import styled, { ThemeProvider } from "styled-components";
 import { theme } from "./Style/theme";
@@ -31,7 +31,7 @@ function App() {
                 <Route path="/about" element={<AboutsPage />}>
                   <Route path=":id" element={<AboutPage />} />
                 </Route>
-                <Route path="/chat" element={<ChatPage />} />
+                <Route path="/mypage" element={<MyPage />} />
                 <Route path="/*" element={<PageNotFound />} />
               </Routes>
             </Main>
