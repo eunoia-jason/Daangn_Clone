@@ -45,7 +45,9 @@ const TopNavBar = () => {
     navigate("/mypage");
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <Container>

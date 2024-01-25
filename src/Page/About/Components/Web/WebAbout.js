@@ -1,15 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { Link } from "react-router-dom";
 import defaultProfile from "../../../../Assets/default_profile.png";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
 import { Credential } from "../../../../Atoms/LoginAtom";
+import { IconButton } from "@mui/material";
+import HeartIcon from "@mui/icons-material/FavoriteBorder";
+import LikedIcon from "@mui/icons-material/Favorite";
 
 const WebAbout = () => {
-  const aboutItem = useRecoilValue(AboutItem);
-  const user = useRecoilValue(Credential);
+  const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
+  const [user, setUser] = useRecoilState(Credential);
+  const [liked, setLiked] = useState(false);
+
+  const handleLikedClick = () => {
+    if (liked) {
+      setAboutItem({ ...aboutItem, interest: aboutItem.interest - 1 });
+    } else {
+      setAboutItem({ ...aboutItem, interest: aboutItem.interest + 1 });
+    }
+    setLiked((prev) => !prev);
+  };
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   return (
     <Body>
@@ -37,7 +54,7 @@ const WebAbout = () => {
                 <dl style={{ display: "block", width: "100%" }}>
                   <Dt>매너온도</Dt>
                   <Dd>
-                    39.9 <span>°C</span>
+                    36.5 <span>°C</span>
                   </Dd>
                 </dl>
                 <Meters>
@@ -53,11 +70,31 @@ const WebAbout = () => {
             <div style={{ display: "block" }}>
               <Title>{aboutItem.title}</Title>
               <Category>
-                {aboutItem.category} ∙ <time>6시간 전</time>
+                {aboutItem.category} ∙ <time>{aboutItem.regDate}</time>
               </Category>
               <Price>{aboutItem.price.toLocaleString()}원</Price>
             </div>
-            {user && <ChatButton>채팅 신청</ChatButton>}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {user === null ? null : aboutItem.name === user.name ? (
+                <ChatButton>수정하기</ChatButton>
+              ) : (
+                <>
+                  <IconButton
+                    aria-label="liked"
+                    size="large"
+                    onClick={handleLikedClick}
+                  >
+                    {liked ? (
+                      <LikedIcon fontSize="inherit" color="warning" />
+                    ) : (
+                      <HeartIcon fontSize="inherit" />
+                    )}
+                  </IconButton>
+                  <div style={{ width: "8px" }} />
+                  <ChatButton>채팅 신청</ChatButton>
+                </>
+              )}
+            </div>
           </div>
           <div style={{ marginBottom: "16px", marginTop: "8px" }}>
             <Desc>{aboutItem.description}</Desc>
@@ -203,7 +240,7 @@ const Bar = styled.div`
   bottom: 0;
   height: 4px;
   border-radius: 100px;
-  width: 40%;
+  width: 36.5%;
   background-color: #319e45;
 `;
 
