@@ -6,6 +6,7 @@ import PageNotFound from "../Page/404Error";
 import AboutPage from "../Page/About";
 import HomePage from "../Page/Home";
 import MyPage from "../Page/My";
+import AddFormPage from "../Page/AddForm";
 
 const Routers = () => {
   return (
@@ -17,6 +18,7 @@ const Routers = () => {
         <Route path=":id" element={<AboutPage />} />
       </Route>
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/addform" element={<AddFormPage />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   );
