@@ -1,17 +1,12 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AboutPage from "./Page/About";
-import HomePage from "./Page/Home";
-import MyPage from "./Page/My";
+import { BrowserRouter as Router } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 import styled, { ThemeProvider } from "styled-components";
 import { theme } from "./Style/theme";
 import TopNavBar from "./Common/TopNavBar";
-import PageNotFound from "./Page/404Error";
 import Footer from "./Common/Footer";
 import { RecoilRoot } from "recoil";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import FleamarketPage from "./Page/Fleamarket";
-import AboutsPage from "./Page/Abouts";
+import Routers from "./Router/Router";
 
 function App() {
   const clientId = process.env.REACT_APP_CLIENT_ID;
@@ -24,16 +19,7 @@ function App() {
             <ScrollToTop />
             <TopNavBar />
             <Main>
-              <Routes>
-                {/* 기본 화면 설정 */}
-                <Route path="/" element={<HomePage />} />
-                <Route path="/fleamarket" element={<FleamarketPage />} />
-                <Route path="/about" element={<AboutsPage />}>
-                  <Route path=":id" element={<AboutPage />} />
-                </Route>
-                <Route path="/mypage" element={<MyPage />} />
-                <Route path="/*" element={<PageNotFound />} />
-              </Routes>
+              <Routers />
             </Main>
             <Footer />
           </Router>

@@ -140,7 +140,7 @@ const TopNavBar = () => {
             <ChatButton
               onClick={accessToken === null ? login : handleChatClick}
             >
-              {accessToken === null ? "로그인" : "마이페이지"}
+              {accessToken === null ? "구글 로그인" : "마이페이지"}
             </ChatButton>
           </span>
         </InputBar>

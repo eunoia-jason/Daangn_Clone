@@ -14,7 +14,7 @@ const WebMy = () => {
   const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
   const [data, setData] = useState([]);
 
-  //mock데이터 들고오기
+  //mock 데이터 들고오기
   useEffect(() => {
     fetch("http://localhost:3000/data/dataList.json")
       .then((res) => res.json())
@@ -33,6 +33,10 @@ const WebMy = () => {
     navigate("/");
   };
 
+  const handleAddClick = () => {
+    navigate("/addform");
+  };
+
   return (
     <Body>
       <Section>
@@ -46,7 +50,7 @@ const WebMy = () => {
           >
             <div style={{ display: "block" }}>
               <Nickname>
-                {credential.name} <Region>{credential.region}</Region>
+                {credential?.name} <Region>{credential?.region}</Region>
               </Nickname>
               <Detail>
                 <Title>
@@ -58,15 +62,15 @@ const WebMy = () => {
                 </Title>
               </Detail>
               <div style={{ position: "absolute", top: 0, left: 0 }}>
-                <Img alt={credential.name} src={credential?.picture} />
+                <Img alt={credential?.name} src={credential?.picture} />
               </div>
             </div>
-            <LogoutButton>새 매물 등록</LogoutButton>
+            <LogoutButton onClick={handleAddClick}>새 매물 등록</LogoutButton>
           </div>
         </Profile>
         <CardWrap>
           {data.map((item) => {
-            if (item.name === credential.name) {
+            if (item.name === credential?.name) {
               return (
                 <Card key={item.id} onClick={() => handleCardClick(item)}>
                   <CardLink to={`/about/${item.id}`}>

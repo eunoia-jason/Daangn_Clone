@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { Link } from "react-router-dom";
@@ -24,9 +24,7 @@ const WebAbout = () => {
     setLiked((prev) => !prev);
   };
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  const handleDeleteClick = () => {};
 
   return (
     <Body>
@@ -76,7 +74,11 @@ const WebAbout = () => {
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               {user === null ? null : aboutItem.name === user.name ? (
-                <ChatButton>수정하기</ChatButton>
+                <>
+                  <ChatButton>수정</ChatButton>
+                  <div style={{ width: "8px" }} />
+                  <ChatButton onClick={handleDeleteClick}>삭제</ChatButton>
+                </>
               ) : (
                 <>
                   <IconButton

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { useRecoilState } from "recoil";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
+import { Credential } from "../../../../Atoms/LoginAtom";
 
 const WebFleamarket = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [user, setUser] = useRecoilState(Credential);
   const [, setAboutItem] = useRecoilState(AboutItem);
 
   //mock데이터 들고오기
@@ -18,6 +21,10 @@ const WebFleamarket = () => {
 
   const handleCardClick = (item) => {
     setAboutItem(item);
+  };
+
+  const handleAddClick = () => {
+    navigate("/addform");
   };
 
   return (
@@ -46,7 +53,23 @@ const WebFleamarket = () => {
         </Cover>
       </Section>
       <ArticleList>
-        <ArticleTitle>중고거래 인기매물</ArticleTitle>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "757px",
+            margin: "0 auto",
+          }}
+        >
+          <div style={{ width: "112px" }} />
+          <ArticleTitle>중고거래 인기매물</ArticleTitle>
+          {user === null ? (
+            <div style={{ width: "112px" }} />
+          ) : (
+            <LogoutButton onClick={handleAddClick}>새 매물 등록</LogoutButton>
+          )}
+        </div>
         <CardWrap>
           {data.map((item) => {
             return (
@@ -259,4 +282,26 @@ const ArticleMore = styled(Link)`
   letter-spacing: -0.3px;
   color: #212529;
   font-weight: bold;
+`;
+
+const LogoutButton = styled.button`
+  line-height: 1.3;
+  font-size: 1.6rem;
+  display: block;
+  white-space: nowrap;
+  background-color: white;
+  font-weight: 700;
+  min-height: 4rem;
+  padding: 0 1.6rem;
+  border-radius: 0.4rem;
+  border: 1px solid #d1d3d8;
+  cursor: pointer;
+  width: fit-content;
+
+  &:hover {
+    background-color: #f2f3f6;
+    color: #21212480;
+    transition: background-color 0.15s;
+    will-change: background-color;
+  }
 `;
