@@ -3,7 +3,7 @@ import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { Link } from "react-router-dom";
 import defaultProfile from "../../../../Assets/default_profile.png";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
 import { Credential } from "../../../../Atoms/LoginAtom";
 import { IconButton } from "@mui/material";
@@ -12,7 +12,7 @@ import LikedIcon from "@mui/icons-material/Favorite";
 
 const WebAbout = () => {
   const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
-  const [user, setUser] = useRecoilState(Credential);
+  const user = useRecoilValue(Credential);
   const [liked, setLiked] = useState(false);
 
   const handleLikedClick = () => {
@@ -151,7 +151,6 @@ const Img = styled.img`
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 10px 0;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -267,7 +266,6 @@ const Description = styled.section`
   padding: 32px 0;
   width: 757px;
   margin: 0 auto;
-  border-bottom: 1px solid #e9ecef;
 `;
 
 const Title = styled.h1`

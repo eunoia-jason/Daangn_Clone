@@ -1,37 +1,77 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
-import { Link } from "react-router-dom";
-import defaultProfile from "../../../../Assets/default_profile.png";
-import { useRecoilState } from "recoil";
-import { AboutItem } from "../../../../Atoms/AboutAtom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { Credential } from "../../../../Atoms/LoginAtom";
-import { IconButton } from "@mui/material";
-import HeartIcon from "@mui/icons-material/FavoriteBorder";
-import LikedIcon from "@mui/icons-material/Favorite";
 
 const WebAddForm = () => {
-  const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
-  const [user, setUser] = useRecoilState(Credential);
-  const [liked, setLiked] = useState(false);
+  const navigate = useNavigate();
+  const user = useRecoilValue(Credential);
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState(null);
+  const [description, setDescription] = useState("");
+  const fileInputRef = useRef(null);
 
-  const handleLikedClick = () => {
-    if (liked) {
-      setAboutItem({ ...aboutItem, interest: aboutItem.interest - 1 });
-    } else {
-      setAboutItem({ ...aboutItem, interest: aboutItem.interest + 1 });
-    }
-    setLiked((prev) => !prev);
+  const handleImageClick = () => {
+    fileInputRef.current.click();
   };
 
-  const handleDeleteClick = () => {};
+  const handleFileChange = (e) => {
+    const fileInput = e.target;
+    const imagePreview = document.getElementById("imagePreview");
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        imagePreview.src = e.target.result;
+      };
+
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  };
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  };
+
+  const handlePriceChange = (e) => {
+    setPrice(parseInt(e.target.value, 10));
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleAddClick = () => {
+    alert("등록되었습니다.");
+    navigate("/mypage");
+  };
 
   return (
     <Body>
       <Article>
         <ArticleImg>
           <ImgWrap>
-            <Img src={defaultImage} />
+            <Img
+              alt="click to upload"
+              id="imagePreview"
+              src={defaultImage}
+              onClick={handleImageClick}
+            />
+            <input
+              type="file"
+              style={{ display: "none" }}
+              ref={fileInputRef}
+              accept="image/*"
+              onChange={handleFileChange}
+            />
           </ImgWrap>
         </ArticleImg>
         <Profile>
@@ -39,11 +79,11 @@ const WebAddForm = () => {
             <SpaceBetween>
               <div style={{ display: "flex" }}>
                 <div style={{ display: "inline-block" }}>
-                  <ProfileImg alt="프로필 사진" src={defaultProfile} />
+                  <ProfileImg alt="프로필 사진" src={user.picture} />
                 </div>
                 <div style={{ display: "inline-block", marginLeft: "8px" }}>
-                  <Nickname>{aboutItem.name}</Nickname>
-                  <Region>{aboutItem.region}</Region>
+                  <Nickname>{user.name}</Nickname>
+                  <Region>{user.region}Gyeongbuk</Region>
                 </div>
               </div>
               <div
@@ -52,7 +92,7 @@ const WebAddForm = () => {
                 <dl style={{ display: "block", width: "100%" }}>
                   <Dt>매너온도</Dt>
                   <Dd>
-                    36.5 <span>°C</span>
+                    {user.temperature}36.5 <span>°C</span>
                   </Dd>
                 </dl>
                 <Meters>
@@ -64,48 +104,73 @@ const WebAddForm = () => {
           </ProfileLink>
         </Profile>
         <Description>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div style={{ display: "block" }}>
-              <Title>{aboutItem.title}</Title>
-              <Category>
-                {aboutItem.category} ∙ <time>{aboutItem.regDate}</time>
-              </Category>
-              <Price>{aboutItem.price.toLocaleString()}원</Price>
-            </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              {user === null ? null : aboutItem.name === user.name ? (
-                <>
-                  <ChatButton>수정</ChatButton>
-                  <div style={{ width: "8px" }} />
-                  <ChatButton onClick={handleDeleteClick}>삭제</ChatButton>
-                </>
-              ) : (
-                <>
-                  <IconButton
-                    aria-label="liked"
-                    size="large"
-                    onClick={handleLikedClick}
-                  >
-                    {liked ? (
-                      <LikedIcon fontSize="inherit" color="warning" />
-                    ) : (
-                      <HeartIcon fontSize="inherit" />
-                    )}
-                  </IconButton>
-                  <div style={{ width: "8px" }} />
-                  <ChatButton>채팅 신청</ChatButton>
-                </>
-              )}
-            </div>
-          </div>
+          <Title>
+            <Input
+              type="text"
+              placeholder="제목을 입력하세요."
+              value={title}
+              onChange={handleTitleChange}
+            />
+          </Title>
+          <Category>
+            <Select value={category} onChange={handleCategoryChange}>
+              <option value="" disabled>
+                카테고리를 선택하세요.
+              </option>
+              <option value="디지털기기">디지털기기</option>
+              <option value="가구/인테리어">가구/인테리어</option>
+              <option value="유아동">유아동</option>
+              <option value="여성의류">여성의류</option>
+              <option value="여성잡화">여성잡화</option>
+              <option value="남성패션/잡화">남성패션/잡화</option>
+              <option value="생활가전">생활가전</option>
+              <option value="생활/주방">생활/주방</option>
+              <option value="가공식품">가공식품</option>
+              <option value="스포츠/레저">스포츠/레저</option>
+              <option value="취미/게임/음반">취미/게임/음반</option>
+              <option value="뷰티/미용">뷰티/미용</option>
+              <option value="식물">식물</option>
+              <option value="반려동물용품">반려동물용품</option>
+              <option value="티켓/교환권">티켓/교환권</option>
+              <option value="도서">도서</option>
+              <option value="유아도서">유아도서</option>
+              <option value="기타 중고물품">기타 중고물품</option>
+            </Select>
+          </Category>
+          <Price>
+            <Input
+              type="number"
+              placeholder="가격을 입력하세요."
+              value={price}
+              onChange={handlePriceChange}
+              min={0}
+              style={{ width: "25%", marginRight: "8px" }}
+            />
+            원
+          </Price>
           <div style={{ marginBottom: "16px", marginTop: "8px" }}>
-            <Desc>{aboutItem.description}</Desc>
+            <Desc>
+              <Textarea
+                placeholder="내용을 입력하세요."
+                value={description}
+                onChange={handleDescriptionChange}
+              />
+            </Desc>
           </div>
-          <Counts>
-            관심 {aboutItem.interest} ∙ 채팅 {aboutItem.chat} ∙ 조회{" "}
-            {aboutItem.view}
-          </Counts>
         </Description>
+        <ChatButton
+          disabled={
+            title === "" ||
+            category === "" ||
+            price === null ||
+            isNaN(price) ||
+            description === ""
+          }
+          style={{ margin: "0 auto 30px" }}
+          onClick={handleAddClick}
+        >
+          등록하기
+        </ChatButton>
       </Article>
     </Body>
   );
@@ -144,19 +209,19 @@ const ImgWrap = styled.div`
   height: 500px;
   border-radius: 8px;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const Img = styled.img`
-  border-radius: 8px;
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 10px 0;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   color: transparent;
   display: block;
+  border-radius: 8px;
 `;
 
 const Profile = styled.section`
@@ -267,7 +332,6 @@ const Description = styled.section`
   padding: 32px 0;
   width: 757px;
   margin: 0 auto;
-  border-bottom: 1px solid #e9ecef;
 `;
 
 const Title = styled.h1`
@@ -301,13 +365,6 @@ const Desc = styled.p`
   word-break: break-all;
 `;
 
-const Counts = styled.p`
-  font-size: 13px;
-  line-height: 1.46;
-  letter-spacing: -0.6px;
-  color: #868e96;
-`;
-
 const ChatButton = styled.button`
   line-height: 1.3;
   font-size: 1.6rem;
@@ -328,4 +385,58 @@ const ChatButton = styled.button`
     transition: background-color 0.15s;
     will-change: background-color;
   }
+
+  &:disabled:hover {
+    cursor: not-allowed;
+    color: #21212450;
+    background-color: transparent;
+  }
+`;
+
+const Input = styled.input`
+  width: 50%;
+  line-height: 1.36;
+  font-size: 1.6rem;
+  background-color: #f2f3f6;
+  height: 4rem;
+  margin: 1.6rem 0;
+  padding: 0.9rem 1.2rem;
+  border: none;
+  border-radius: 0.6rem;
+
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+`;
+
+const Textarea = styled.textarea`
+  min-width: 100%;
+  line-height: 1.36;
+  font-size: 1.6rem;
+  background-color: #f2f3f6;
+  height: 20vh;
+  margin: 1.6rem 0;
+  padding: 0.9rem 1.2rem;
+  border: none;
+  border-radius: 0.6rem;
+  resize: none;
+`;
+
+const Select = styled.select`
+  width: 200px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 12px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border: solid 1px #e9ecef;
+  box-sizing: border-box;
+  font-size: 17px;
+  letter-spacing: -0.6px;
+  text-align: left;
+  background: #fff
+    url("https://d1unjqcospf8gs.cloudfront.net/assets/home/articles/icon-arrow-down-ea33c4b4c74ce0aca95580c70c5ba1f464ff5833213b0fc8db5de0fab98b57e1.svg")
+    no-repeat 95% 50%;
 `;
