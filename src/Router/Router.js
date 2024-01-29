@@ -7,6 +7,7 @@ import AboutPage from "../Page/About";
 import HomePage from "../Page/Home";
 import MyPage from "../Page/My";
 import AddFormPage from "../Page/AddForm";
+import EditFormPage from "../Page/EditForm";
 
 const Routers = () => {
   return (
@@ -19,6 +20,7 @@ const Routers = () => {
       </Route>
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/addform" element={<AddFormPage />} />
+      <Route path="/editform" element={<EditFormPage />} />
       <Route path="/*" element={<PageNotFound />} />
     </Routes>
   );

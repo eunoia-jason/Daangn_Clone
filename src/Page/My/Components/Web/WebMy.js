@@ -11,7 +11,7 @@ const WebMy = () => {
   const navigate = useNavigate();
   const [credential, setCredential] = useRecoilState(Credential);
   const [, setAccessToken] = useRecoilState(AccessToken);
-  const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
+  const [, setAboutItem] = useRecoilState(AboutItem);
   const [data, setData] = useState([]);
 
   //mock 데이터 들고오기

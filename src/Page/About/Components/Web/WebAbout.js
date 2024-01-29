@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import defaultProfile from "../../../../Assets/default_profile.png";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
@@ -11,6 +11,7 @@ import HeartIcon from "@mui/icons-material/FavoriteBorder";
 import LikedIcon from "@mui/icons-material/Favorite";
 
 const WebAbout = () => {
+  const navigate = useNavigate();
   const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
   const user = useRecoilValue(Credential);
   const [liked, setLiked] = useState(false);
@@ -75,7 +76,9 @@ const WebAbout = () => {
             <div style={{ display: "flex", alignItems: "center" }}>
               {user === null ? null : aboutItem.name === user.name ? (
                 <>
-                  <ChatButton>수정</ChatButton>
+                  <Link to="/editform" style={{ all: "unset" }}>
+                    <ChatButton>수정</ChatButton>
+                  </Link>
                   <div style={{ width: "8px" }} />
                   <ChatButton onClick={handleDeleteClick}>삭제</ChatButton>
                 </>
