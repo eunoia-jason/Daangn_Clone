@@ -269,6 +269,7 @@ const Description = styled.section`
   padding: 32px 0;
   width: 757px;
   margin: 0 auto;
+  border-bottom: 1px solid #e9ecef;
 `;
 
 const Title = styled.h1`
