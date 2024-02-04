@@ -4,7 +4,7 @@ import Logo from "../Assets/Logo";
 import DeleteButton from "../Assets/DeleteButton";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { AccessToken, Credential } from "../Atoms/LoginAtom";
+import { Credential } from "../Atoms/LoginAtom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
@@ -12,12 +12,10 @@ const TopNavBar = () => {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
   const [credential, setCredential] = useRecoilState(Credential);
-  const [accessToken, setAcessToken] = useRecoilState(AccessToken);
+
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log(tokenResponse);
-      localStorage.setItem("accessToken", tokenResponse.access_token);
-      setAcessToken(tokenResponse.access_token);
       // fetching userinfo can be done on the client or the server
       const userInfo = await axios
         .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -25,8 +23,25 @@ const TopNavBar = () => {
         })
         .then((res) => res.data);
 
-      console.log(userInfo);
-      setCredential(userInfo);
+      const response = await axios
+        .get(`${process.env.REACT_APP_SERVER_URL}/user/${userInfo.email}`)
+        .then((res) => res.data);
+
+      if (response === "") {
+        const user = await axios
+          .post(`${process.env.REACT_APP_SERVER_URL}/user/create`, {
+            name: userInfo.name,
+            email: userInfo.email,
+            image: userInfo.picture,
+            temperature: 36.5,
+            region: "경상북도 포항시 북구",
+          })
+          .then((res) => res.data);
+
+        setCredential(user);
+      } else {
+        setCredential(response);
+      }
     },
     onFailure: (err) => {
       console.log(err);
@@ -137,10 +152,8 @@ const TopNavBar = () => {
             </Form>
           </span>
           <span>
-            <ChatButton
-              onClick={accessToken === null ? login : handleChatClick}
-            >
-              {accessToken === null ? "구글 로그인" : "마이페이지"}
+            <ChatButton onClick={credential === null ? login : handleChatClick}>
+              {credential === null ? "구글 로그인" : "마이페이지"}
             </ChatButton>
           </span>
         </InputBar>

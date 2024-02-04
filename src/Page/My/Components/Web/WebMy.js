@@ -3,14 +3,13 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
-import { AccessToken, Credential } from "../../../../Atoms/LoginAtom";
+import { Credential } from "../../../../Atoms/LoginAtom";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
 import defaultImage from "../../../../Assets/default_img.svg";
 
 const WebMy = () => {
   const navigate = useNavigate();
   const [credential, setCredential] = useRecoilState(Credential);
-  const [, setAccessToken] = useRecoilState(AccessToken);
   const [, setAboutItem] = useRecoilState(AboutItem);
   const [data, setData] = useState([]);
 
@@ -27,9 +26,7 @@ const WebMy = () => {
 
   const handleLogoutClick = () => {
     googleLogout();
-    localStorage.removeItem("accessToken");
     setCredential(null);
-    setAccessToken(null);
     navigate("/");
   };
 
