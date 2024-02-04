@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AboutItem, AboutSeller } from "../../../../Atoms/AboutAtom";
 import { Credential } from "../../../../Atoms/LoginAtom";
@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import axios from "axios";
 
 const WebAbout = () => {
+  const navigate = useNavigate();
   const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
   const [aboutSeller] = useRecoilState(AboutSeller);
   const user = useRecoilValue(Credential);
@@ -77,7 +78,8 @@ const WebAbout = () => {
         await axios.delete(
           `${process.env.REACT_APP_SERVER_URL}/forSale/delete/${aboutItem.id}`
         );
-        alert("삭제 되었습니다.");
+        alert("삭제되었습니다.");
+        navigate("/mypage");
       } catch (error) {
         alert(error);
       }

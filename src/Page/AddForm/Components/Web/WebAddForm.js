@@ -61,7 +61,7 @@ const WebAddForm = () => {
 
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/forSale/create/image`,
+          `${process.env.REACT_APP_SERVER_URL}/forSale/create/image/${user.email}`,
           fileData,
           {
             headers: {
@@ -74,8 +74,6 @@ const WebAddForm = () => {
         alert(error);
       }
     }
-
-    console.log(fileUrl);
 
     try {
       await axios.post(`${process.env.REACT_APP_SERVER_URL}/forSale/create`, {

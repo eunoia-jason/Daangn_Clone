@@ -31,7 +31,6 @@ const WebFleamarket = () => {
   }, []);
 
   const handleCardClick = (item) => {
-    console.log(item);
     setAboutItem(item);
     setAboutSeller(item.user);
   };

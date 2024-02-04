@@ -16,6 +16,7 @@ const WebEditForm = () => {
   const [price, setPrice] = useState(aboutItem.price);
   const [description, setDescription] = useState(aboutItem.description);
   const fileInputRef = useRef(null);
+  const [file, setFile] = useState(aboutItem.image);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -33,6 +34,7 @@ const WebEditForm = () => {
       };
 
       reader.readAsDataURL(fileInput.files[0]);
+      setFile(fileInput.files[0]);
     }
   };
 
@@ -53,17 +55,42 @@ const WebEditForm = () => {
   };
 
   const handleEditClick = async () => {
+    let fileUrl = null;
+
+    if (file !== aboutItem.image) {
+      const fileData = new FormData();
+      fileData.append("image", file);
+
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/create/image/${user.email}`,
+          fileData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        fileUrl = response.data;
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    console.log(fileUrl);
+
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `${process.env.REACT_APP_SERVER_URL}/forSale/update/${aboutItem.id}`,
         {
           title: title,
           category: category,
           price: price,
           description: description,
-          image: null,
+          image: fileUrl,
         }
       );
+      console.log(response.data);
       alert("수정되었습니다.");
       navigate("/mypage");
     } catch (error) {
@@ -188,7 +215,8 @@ const WebEditForm = () => {
             (title === aboutItem.title &&
               category === aboutItem.category &&
               price === aboutItem.price &&
-              description === aboutItem.description)
+              description === aboutItem.description &&
+              file === aboutItem.image)
           }
           style={{ margin: "0 auto 30px" }}
           onClick={handleEditClick}
