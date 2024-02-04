@@ -52,21 +52,18 @@ const WebAddForm = () => {
 
   const handleAddClick = async () => {
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/forSale/create`,
-        {
-          title: title,
-          category: category,
-          price: price,
-          description: description,
-          user: user.id,
-        }
-      );
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/forSale/create`, {
+        title: title,
+        category: category,
+        price: price,
+        description: description,
+        user: user.id,
+      });
+      alert("등록되었습니다.");
+      navigate("/mypage");
     } catch (error) {
       alert(error);
     }
-    alert("등록되었습니다.");
-    navigate("/mypage");
   };
 
   return (

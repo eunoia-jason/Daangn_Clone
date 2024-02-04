@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { Credential } from "../../../../Atoms/LoginAtom";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
+import axios from "axios";
 
 const WebEditForm = () => {
   const navigate = useNavigate();
@@ -51,9 +52,23 @@ const WebEditForm = () => {
     setDescription(e.target.value);
   };
 
-  const handleEditClick = () => {
-    alert("수정되었습니다.");
-    navigate("/mypage");
+  const handleEditClick = async () => {
+    try {
+      await axios.patch(
+        `${process.env.REACT_APP_SERVER_URL}/forSale/update/${aboutItem.id}`,
+        {
+          title: title,
+          category: category,
+          price: price,
+          description: description,
+          image: null,
+        }
+      );
+      alert("수정되었습니다.");
+      navigate("/mypage");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (

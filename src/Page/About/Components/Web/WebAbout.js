@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { AboutItem, AboutSeller } from "../../../../Atoms/AboutAtom";
 import { Credential } from "../../../../Atoms/LoginAtom";
@@ -9,19 +9,57 @@ import { IconButton } from "@mui/material";
 import HeartIcon from "@mui/icons-material/FavoriteBorder";
 import LikedIcon from "@mui/icons-material/Favorite";
 import { format } from "date-fns";
+import axios from "axios";
 
 const WebAbout = () => {
-  const navigate = useNavigate();
   const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
   const [aboutSeller] = useRecoilState(AboutSeller);
   const user = useRecoilValue(Credential);
   const [liked, setLiked] = useState(false);
 
-  const handleLikedClick = () => {
+  useEffect(() => {
+    const increaseView = async () => {
+      try {
+        const response = await axios.patch(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/update/${aboutItem.id}/view`,
+          {
+            view: aboutItem.view + 1,
+          }
+        );
+        setAboutItem(response.data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    increaseView();
+  }, []);
+
+  const handleLikedClick = async () => {
     if (liked) {
-      setAboutItem({ ...aboutItem, interest: aboutItem.interest - 1 });
+      try {
+        const response = await axios.patch(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/update/${aboutItem.id}/interest`,
+          {
+            interest: aboutItem.interest - 1,
+          }
+        );
+        setAboutItem(response.data);
+      } catch (error) {
+        alert(error);
+      }
     } else {
-      setAboutItem({ ...aboutItem, interest: aboutItem.interest + 1 });
+      try {
+        const response = await axios.patch(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/update/${aboutItem.id}/interest`,
+          {
+            interest: aboutItem.interest + 1,
+          }
+        );
+        setAboutItem(response.data);
+      } catch (error) {
+        alert(error);
+      }
     }
     setLiked((prev) => !prev);
   };
@@ -31,7 +69,20 @@ const WebAbout = () => {
     return format(date, "yyyy-MM-dd HH:mm:ss");
   };
 
-  const handleDeleteClick = () => {};
+  const handleDeleteClick = async () => {
+    const ok = window.confirm("정말 삭제하시겠습니까?");
+
+    if (ok) {
+      try {
+        await axios.delete(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/delete/${aboutItem.id}`
+        );
+        alert("삭제 되었습니다.");
+      } catch (error) {
+        alert(error);
+      }
+    }
+  };
 
   return (
     <Body>
@@ -81,7 +132,7 @@ const WebAbout = () => {
               <Price>{aboutItem.price.toLocaleString()}원</Price>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              {user === null ? null : aboutItem.name === user.name ? (
+              {aboutSeller.id === user.id ? (
                 <>
                   <Link to="/editform" style={{ all: "unset" }}>
                     <ChatButton>수정</ChatButton>

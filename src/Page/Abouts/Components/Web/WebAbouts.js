@@ -52,7 +52,7 @@ const WebAbouts = () => {
                     <Region>{item.region}</Region>
                     <Counts>
                       <span>관심 {item.interest}</span> ∙{" "}
-                      <span>채팅 {item.view}</span>
+                      <span>조회 {item.view}</span>
                     </Counts>
                   </div>
                 </CardLink>
