@@ -14,6 +14,7 @@ const WebAddForm = () => {
   const [price, setPrice] = useState(null);
   const [description, setDescription] = useState("");
   const fileInputRef = useRef(null);
+  const [file, setFile] = useState(null);
 
   const handleImageClick = () => {
     fileInputRef.current.click();
@@ -31,6 +32,7 @@ const WebAddForm = () => {
       };
 
       reader.readAsDataURL(fileInput.files[0]);
+      setFile(fileInput.files[0]);
     }
   };
 
@@ -51,12 +53,37 @@ const WebAddForm = () => {
   };
 
   const handleAddClick = async () => {
+    let fileUrl = null;
+
+    if (file !== null) {
+      const fileData = new FormData();
+      fileData.append("image", file);
+
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/create/image`,
+          fileData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        fileUrl = response.data;
+      } catch (error) {
+        alert(error);
+      }
+    }
+
+    console.log(fileUrl);
+
     try {
       await axios.post(`${process.env.REACT_APP_SERVER_URL}/forSale/create`, {
         title: title,
         category: category,
         price: price,
         description: description,
+        image: fileUrl,
         user: user.id,
       });
       alert("등록되었습니다.");
@@ -72,6 +99,7 @@ const WebAddForm = () => {
         <ArticleImg>
           <ImgWrap>
             <Img
+              style={file === null ? { padding: "5px 0" } : {}}
               alt="click to upload"
               id="imagePreview"
               src={defaultImage}

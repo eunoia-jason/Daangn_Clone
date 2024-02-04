@@ -77,9 +77,12 @@ const WebEditForm = () => {
         <ArticleImg>
           <ImgWrap>
             <Img
+              style={aboutItem.imageUrl === null ? { padding: "5px 0" } : {}}
               alt="click to upload"
               id="imagePreview"
-              src={defaultImage}
+              src={
+                aboutItem.imageUrl === null ? defaultImage : aboutItem.imageUrl
+              }
               onClick={handleImageClick}
             />
             <input

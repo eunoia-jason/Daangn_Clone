@@ -15,7 +15,6 @@ const TopNavBar = () => {
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       // fetching userinfo can be done on the client or the server
       const userInfo = await axios
         .get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -24,7 +23,7 @@ const TopNavBar = () => {
         .then((res) => res.data);
 
       const response = await axios
-        .get(`${process.env.REACT_APP_SERVER_URL}/user/${userInfo.email}`)
+        .get(`http://localhost:8080/daangn/user/${userInfo.email}`)
         .then((res) => res.data);
 
       if (response === "") {

@@ -31,6 +31,7 @@ const WebFleamarket = () => {
   }, []);
 
   const handleCardClick = (item) => {
+    console.log(item);
     setAboutItem(item);
     setAboutSeller(item.user);
   };
@@ -88,7 +89,13 @@ const WebFleamarket = () => {
               <Card key={item.id} onClick={() => handleCardClick(item)}>
                 <CardLink to={`/about/${item.id}`}>
                   <CardPhoto>
-                    <Photo alt={item.title} src={defaultImage}></Photo>
+                    <Photo
+                      style={item.imageUrl === null ? { padding: "5px 0" } : {}}
+                      alt={item.title}
+                      src={
+                        item.imageUrl === null ? defaultImage : item.imageUrl
+                      }
+                    ></Photo>
                   </CardPhoto>
                   <div style={{ marginTop: "12px" }}>
                     <CardTitle>{item.title}</CardTitle>
@@ -241,7 +248,6 @@ const Photo = styled.img`
   bottom: 0;
   width: 100%;
   height: 100%;
-  padding: 5px 0;
   box-sizing: border-box;
   border-radius: 12px;
   border: 1px solid transparent;

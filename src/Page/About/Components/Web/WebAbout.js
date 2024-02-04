@@ -89,7 +89,12 @@ const WebAbout = () => {
       <Article>
         <ArticleImg>
           <ImgWrap>
-            <Img src={defaultImage} />
+            <Img
+              style={aboutItem.imageUrl === null ? { padding: "5px 0" } : {}}
+              src={
+                aboutItem.imageUrl === null ? defaultImage : aboutItem.imageUrl
+              }
+            />
           </ImgWrap>
         </ArticleImg>
         <Profile>
