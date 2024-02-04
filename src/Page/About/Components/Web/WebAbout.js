@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { Link, useNavigate } from "react-router-dom";
-import defaultProfile from "../../../../Assets/default_profile.png";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { AboutItem } from "../../../../Atoms/AboutAtom";
+import { AboutItem, AboutSeller } from "../../../../Atoms/AboutAtom";
 import { Credential } from "../../../../Atoms/LoginAtom";
 import { IconButton } from "@mui/material";
 import HeartIcon from "@mui/icons-material/FavoriteBorder";
 import LikedIcon from "@mui/icons-material/Favorite";
+import { format } from "date-fns";
 
 const WebAbout = () => {
   const navigate = useNavigate();
   const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
+  const [aboutSeller] = useRecoilState(AboutSeller);
   const user = useRecoilValue(Credential);
   const [liked, setLiked] = useState(false);
 
@@ -23,6 +24,11 @@ const WebAbout = () => {
       setAboutItem({ ...aboutItem, interest: aboutItem.interest + 1 });
     }
     setLiked((prev) => !prev);
+  };
+
+  const formatMilliseconds = (milliseconds) => {
+    const date = new Date(milliseconds);
+    return format(date, "yyyy-MM-dd HH:mm:ss");
   };
 
   const handleDeleteClick = () => {};
@@ -40,11 +46,11 @@ const WebAbout = () => {
             <SpaceBetween>
               <div style={{ display: "flex" }}>
                 <div style={{ display: "inline-block" }}>
-                  <ProfileImg alt="프로필 사진" src={defaultProfile} />
+                  <ProfileImg alt="프로필 사진" src={aboutSeller.image} />
                 </div>
                 <div style={{ display: "inline-block", marginLeft: "8px" }}>
-                  <Nickname>{aboutItem.name}</Nickname>
-                  <Region>{aboutItem.region}</Region>
+                  <Nickname>{aboutSeller.name}</Nickname>
+                  <Region>{aboutSeller.region}</Region>
                 </div>
               </div>
               <div
@@ -53,7 +59,7 @@ const WebAbout = () => {
                 <dl style={{ display: "block", width: "100%" }}>
                   <Dt>매너온도</Dt>
                   <Dd>
-                    36.5 <span>°C</span>
+                    {aboutSeller.temperature} <span>°C</span>
                   </Dd>
                 </dl>
                 <Meters>
@@ -69,7 +75,8 @@ const WebAbout = () => {
             <div style={{ display: "block" }}>
               <Title>{aboutItem.title}</Title>
               <Category>
-                {aboutItem.category} ∙ <time>{aboutItem.regDate}</time>
+                {aboutItem.category} ∙{" "}
+                <time>{formatMilliseconds(aboutItem.regDate)}</time>
               </Category>
               <Price>{aboutItem.price.toLocaleString()}원</Price>
             </div>
@@ -83,21 +90,17 @@ const WebAbout = () => {
                   <ChatButton onClick={handleDeleteClick}>삭제</ChatButton>
                 </>
               ) : (
-                <>
-                  <IconButton
-                    aria-label="liked"
-                    size="large"
-                    onClick={handleLikedClick}
-                  >
-                    {liked ? (
-                      <LikedIcon fontSize="inherit" color="warning" />
-                    ) : (
-                      <HeartIcon fontSize="inherit" />
-                    )}
-                  </IconButton>
-                  <div style={{ width: "8px" }} />
-                  <ChatButton>채팅 신청</ChatButton>
-                </>
+                <IconButton
+                  aria-label="liked"
+                  size="large"
+                  onClick={handleLikedClick}
+                >
+                  {liked ? (
+                    <LikedIcon fontSize="inherit" color="warning" />
+                  ) : (
+                    <HeartIcon fontSize="inherit" />
+                  )}
+                </IconButton>
               )}
             </div>
           </div>
@@ -105,8 +108,7 @@ const WebAbout = () => {
             <Desc>{aboutItem.description}</Desc>
           </div>
           <Counts>
-            관심 {aboutItem.interest} ∙ 채팅 {aboutItem.chat} ∙ 조회{" "}
-            {aboutItem.view}
+            관심 {aboutItem.interest} ∙ 조회 {aboutItem.view}
           </Counts>
         </Description>
       </Article>

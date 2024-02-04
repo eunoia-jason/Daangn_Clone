@@ -6,6 +6,7 @@ import { googleLogout } from "@react-oauth/google";
 import { Credential } from "../../../../Atoms/LoginAtom";
 import { AboutItem } from "../../../../Atoms/AboutAtom";
 import defaultImage from "../../../../Assets/default_img.svg";
+import axios from "axios";
 
 const WebMy = () => {
   const navigate = useNavigate();
@@ -15,9 +16,18 @@ const WebMy = () => {
 
   //mock 데이터 들고오기
   useEffect(() => {
-    fetch("http://localhost:3000/data/dataList.json")
-      .then((res) => res.json())
-      .then((json) => setData(json.data));
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/read/${credential.id}`
+        );
+        setData(response.data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleCardClick = (item) => {
@@ -47,11 +57,11 @@ const WebMy = () => {
           >
             <div style={{ display: "block" }}>
               <Nickname>
-                {credential?.name} <Region>{credential?.region}</Region>
+                {credential.name} <Region>{credential.region}</Region>
               </Nickname>
               <Detail>
                 <Title>
-                  매너온도 <Count>{credential?.temerature}36.5°C</Count>
+                  매너온도 <Count>{credential.temperature}°C</Count>
                 </Title>
                 <Title>
                   재거래희망률{" "}
@@ -59,7 +69,7 @@ const WebMy = () => {
                 </Title>
               </Detail>
               <div style={{ position: "absolute", top: 0, left: 0 }}>
-                <Img alt={credential?.name} src={credential?.picture} />
+                <Img alt={credential.name} src={credential.image} />
               </div>
             </div>
             <LogoutButton onClick={handleAddClick}>새 매물 등록</LogoutButton>
@@ -67,26 +77,24 @@ const WebMy = () => {
         </Profile>
         <CardWrap>
           {data.map((item) => {
-            if (item.name === credential?.name) {
-              return (
-                <Card key={item.id} onClick={() => handleCardClick(item)}>
-                  <CardLink to={`/about/${item.id}`}>
-                    <CardPhoto>
-                      <Photo alt={item.title} src={defaultImage}></Photo>
-                    </CardPhoto>
-                    <div style={{ marginTop: "12px" }}>
-                      <CardTitle>{item.title}</CardTitle>
-                      <Price>{item.price.toLocaleString()}원</Price>
-                      <RegionName>{item.region}</RegionName>
-                      <Counts>
-                        <span>관심 {item.interest}</span> ∙{" "}
-                        <span>채팅 {item.chat}</span>
-                      </Counts>
-                    </div>
-                  </CardLink>
-                </Card>
-              );
-            }
+            return (
+              <Card key={item.id} onClick={() => handleCardClick(item)}>
+                <CardLink to={`/about/${item.id}`}>
+                  <CardPhoto>
+                    <Photo alt={item.title} src={defaultImage}></Photo>
+                  </CardPhoto>
+                  <div style={{ marginTop: "12px" }}>
+                    <CardTitle>{item.title}</CardTitle>
+                    <Price>{item.price.toLocaleString()}원</Price>
+                    <RegionName>{item.region}</RegionName>
+                    <Counts>
+                      <span>관심 {item.interest}</span> ∙{" "}
+                      <span>조회 {item.view}</span>
+                    </Counts>
+                  </div>
+                </CardLink>
+              </Card>
+            );
           })}
         </CardWrap>
       </Section>

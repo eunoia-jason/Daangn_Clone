@@ -3,24 +3,36 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { useRecoilState } from "recoil";
-import { AboutItem } from "../../../../Atoms/AboutAtom";
+import { AboutItem, AboutSeller } from "../../../../Atoms/AboutAtom";
 import { Credential } from "../../../../Atoms/LoginAtom";
+import axios from "axios";
 
 const WebFleamarket = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [user, setUser] = useRecoilState(Credential);
+  const [user] = useRecoilState(Credential);
   const [, setAboutItem] = useRecoilState(AboutItem);
+  const [, setAboutSeller] = useRecoilState(AboutSeller);
 
-  //mock데이터 들고오기
   useEffect(() => {
-    fetch("http://localhost:3000/data/dataList.json")
-      .then((res) => res.json())
-      .then((json) => setData(json.data));
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/forSale/read`
+        );
+
+        setData(response.data);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleCardClick = (item) => {
     setAboutItem(item);
+    setAboutSeller(item.user);
   };
 
   const handleAddClick = () => {
@@ -84,7 +96,7 @@ const WebFleamarket = () => {
                     <Region>{item.region}</Region>
                     <Counts>
                       <span>관심 {item.interest}</span> ∙{" "}
-                      <span>채팅 {item.chat}</span>
+                      <span>조회 {item.view}</span>
                     </Counts>
                   </div>
                 </CardLink>

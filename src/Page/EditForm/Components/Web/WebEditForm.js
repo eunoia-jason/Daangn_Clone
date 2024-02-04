@@ -81,11 +81,11 @@ const WebEditForm = () => {
             <SpaceBetween>
               <div style={{ display: "flex" }}>
                 <div style={{ display: "inline-block" }}>
-                  <ProfileImg alt="프로필 사진" src={user.picture} />
+                  <ProfileImg alt="프로필 사진" src={user.image} />
                 </div>
                 <div style={{ display: "inline-block", marginLeft: "8px" }}>
                   <Nickname>{user.name}</Nickname>
-                  <Region>{user.region}Gyeongbuk</Region>
+                  <Region>{user.region}</Region>
                 </div>
               </div>
               <div
@@ -94,7 +94,7 @@ const WebEditForm = () => {
                 <dl style={{ display: "block", width: "100%" }}>
                   <Dt>매너온도</Dt>
                   <Dd>
-                    {user.temperature}36.5 <span>°C</span>
+                    {user.temperature} <span>°C</span>
                   </Dd>
                 </dl>
                 <Meters>
