@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
 import { Credential } from "../../../../Atoms/LoginAtom";
-import { AboutItem } from "../../../../Atoms/AboutAtom";
+import { AboutItem, AboutSeller } from "../../../../Atoms/AboutAtom";
 import defaultImage from "../../../../Assets/default_img.svg";
 import axios from "axios";
 
@@ -12,6 +12,7 @@ const WebMy = () => {
   const navigate = useNavigate();
   const [credential, setCredential] = useRecoilState(Credential);
   const [, setAboutItem] = useRecoilState(AboutItem);
+  const [, setAboutSeller] = useRecoilState(AboutSeller);
   const [data, setData] = useState([]);
 
   //mock 데이터 들고오기
@@ -32,11 +33,12 @@ const WebMy = () => {
 
   const handleCardClick = (item) => {
     setAboutItem(item);
+    setAboutSeller(item.user);
   };
 
   const handleLogoutClick = () => {
     googleLogout();
-    setCredential(null);
+    localStorage.removeItem("recoil-persist");
     navigate("/");
   };
 
