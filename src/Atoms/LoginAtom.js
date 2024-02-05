@@ -3,7 +3,7 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist({
   key: "login",
-  storage: localStorage,
+  storage: sessionStorage,
 });
 
 export const Credential = atom({

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { AboutItem, AboutSeller } from "../../../../Atoms/AboutAtom";
 import { Credential } from "../../../../Atoms/LoginAtom";
 import { IconButton } from "@mui/material";
@@ -15,7 +15,7 @@ const WebAbout = () => {
   const navigate = useNavigate();
   const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
   const [aboutSeller] = useRecoilState(AboutSeller);
-  const user = useRecoilValue(Credential);
+  const [user] = useRecoilState(Credential);
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
