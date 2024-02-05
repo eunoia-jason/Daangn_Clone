@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import defaultImage from "../../../../Assets/default_img.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +15,13 @@ const WebAddForm = () => {
   const [description, setDescription] = useState("");
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    if (user === null) {
+      alert("로그인이 필요합니다!");
+      navigate("/");
+    }
+  }, []);
 
   const handleImageClick = () => {
     fileInputRef.current.click();

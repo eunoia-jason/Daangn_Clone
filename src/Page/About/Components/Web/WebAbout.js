@@ -139,7 +139,7 @@ const WebAbout = () => {
               <Price>{aboutItem.price.toLocaleString()}원</Price>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-              {aboutSeller.id === user.id ? (
+              {aboutSeller.id === user?.id ? (
                 <>
                   <Link to="/editform" style={{ all: "unset" }}>
                     <ChatButton>수정</ChatButton>
@@ -147,7 +147,7 @@ const WebAbout = () => {
                   <div style={{ width: "8px" }} />
                   <ChatButton onClick={handleDeleteClick}>삭제</ChatButton>
                 </>
-              ) : (
+              ) : user !== null ? (
                 <IconButton
                   aria-label="liked"
                   size="large"
@@ -159,7 +159,7 @@ const WebAbout = () => {
                     <HeartIcon fontSize="inherit" />
                   )}
                 </IconButton>
-              )}
+              ) : null}
             </div>
           </div>
           <div style={{ marginBottom: "16px", marginTop: "8px" }}>

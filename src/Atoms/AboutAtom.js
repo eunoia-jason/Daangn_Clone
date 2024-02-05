@@ -1,7 +1,10 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
-const { persistAtom } = recoilPersist();
+const { persistAtom } = recoilPersist({
+  key: "item",
+  storage: localStorage,
+});
 
 export const AboutItem = atom({
   key: "aboutItem",

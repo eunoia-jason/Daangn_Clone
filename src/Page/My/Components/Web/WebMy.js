@@ -15,8 +15,12 @@ const WebMy = () => {
   const [, setAboutSeller] = useRecoilState(AboutSeller);
   const [data, setData] = useState([]);
 
-  //mock 데이터 들고오기
   useEffect(() => {
+    if (credential === null) {
+      alert("로그인이 필요합니다!");
+      navigate("/");
+    }
+
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -41,7 +45,8 @@ const WebMy = () => {
     setCredential(null);
     setAboutItem(null);
     setAboutSeller(null);
-    localStorage.removeItem("recoil-persist");
+    localStorage.removeItem("login");
+    localStorage.removeItem("item");
     navigate("/");
   };
 
