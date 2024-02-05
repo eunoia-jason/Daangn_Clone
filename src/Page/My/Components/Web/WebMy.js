@@ -38,10 +38,10 @@ const WebMy = () => {
 
   const handleLogoutClick = () => {
     googleLogout();
-    localStorage.removeItem("recoil-persist");
     setCredential(null);
     setAboutItem(null);
     setAboutSeller(null);
+    localStorage.removeItem("recoil-persist");
     navigate("/");
   };
 
