@@ -23,7 +23,7 @@ const TopNavBar = () => {
         .then((res) => res.data);
 
       const response = await axios
-        .get(`http://localhost:8080/daangn/user/${userInfo.email}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/user/${userInfo.email}`)
         .then((res) => res.data);
 
       if (response === "") {
