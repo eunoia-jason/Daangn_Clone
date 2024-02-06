@@ -8,10 +8,9 @@ import axios from "axios";
 
 const WebAbouts = () => {
   const [data, setData] = useState([]);
-  const [, setAboutItem] = useRecoilState(AboutItem);
+  const [aboutItem, setAboutItem] = useRecoilState(AboutItem);
   const [, setAboutSeller] = useRecoilState(AboutSeller);
 
-  //mock데이터 들고오기
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,7 +25,7 @@ const WebAbouts = () => {
     };
 
     fetchData();
-  }, []);
+  }, [aboutItem]);
 
   const handleCardClick = (item) => {
     setAboutItem(item);

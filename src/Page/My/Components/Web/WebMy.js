@@ -45,8 +45,8 @@ const WebMy = () => {
     setCredential(null);
     setAboutItem(null);
     setAboutSeller(null);
-    localStorage.removeItem("login");
-    localStorage.removeItem("item");
+    sessionStorage.removeItem("login");
+    sessionStorage.removeItem("item");
     navigate("/");
   };
 

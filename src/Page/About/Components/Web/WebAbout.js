@@ -34,7 +34,7 @@ const WebAbout = () => {
     };
 
     increaseView();
-  }, []);
+  }, [aboutSeller]);
 
   const handleLikedClick = async () => {
     if (liked) {

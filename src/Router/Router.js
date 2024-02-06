@@ -1,28 +1,31 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import FleamarketPage from "../Page/Fleamarket";
-import AboutsPage from "../Page/Abouts";
-import PageNotFound from "../Page/404Error";
-import AboutPage from "../Page/About";
-import HomePage from "../Page/Home";
-import MyPage from "../Page/My";
-import AddFormPage from "../Page/AddForm";
-import EditFormPage from "../Page/EditForm";
+
+const HomePage = lazy(() => import("../Page/Home"));
+const AboutPage = lazy(() => import("../Page/About"));
+const FleamarketPage = lazy(() => import("../Page/Fleamarket"));
+const AboutsPage = lazy(() => import("../Page/Abouts"));
+const MyPage = lazy(() => import("../Page/My"));
+const AddFormPage = lazy(() => import("../Page/AddForm"));
+const EditFormPage = lazy(() => import("../Page/EditForm"));
+const PageNotFound = lazy(() => import("../Page/404Error"));
 
 const Routers = () => {
   return (
-    <Routes>
-      {/* 기본 화면 설정 */}
-      <Route path="/" element={<HomePage />} />
-      <Route path="/fleamarket" element={<FleamarketPage />} />
-      <Route path="/about" element={<AboutsPage />}>
-        <Route path=":id" element={<AboutPage />} />
-      </Route>
-      <Route path="/mypage" element={<MyPage />} />
-      <Route path="/addform" element={<AddFormPage />} />
-      <Route path="/editform" element={<EditFormPage />} />
-      <Route path="/*" element={<PageNotFound />} />
-    </Routes>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        {/* 기본 화면 설정 */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/fleamarket" element={<FleamarketPage />} />
+        <Route path="/about" element={<AboutsPage />}>
+          <Route path=":id" element={<AboutPage />} />
+        </Route>
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/addform" element={<AddFormPage />} />
+        <Route path="/editform" element={<EditFormPage />} />
+        <Route path="/*" element={<PageNotFound />} />
+      </Routes>
+    </Suspense>
   );
 };
 
